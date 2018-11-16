@@ -1,9 +1,9 @@
 from flask import Flask, render_template
-from classify import test
+from classify import oheClassify
 
 
 app = Flask(__name__)
-testData = test()
+oheAccuracy = oheClassify()
 
 
 @app.route('/')
@@ -12,11 +12,11 @@ def index():
 
 @app.route('/w2v')
 def w2v():
-    return render_template('w2v.html', testdata=testData)
+    return render_template('w2v.html')
 
 @app.route('/ohe')
 def ohe():
-    return render_template('ohe.html')
+    return render_template('ohe.html', ohescore = oheAccuracy)
 
 if __name__ == '__main__':
     app.run(debug=True)
