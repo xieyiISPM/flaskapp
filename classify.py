@@ -22,3 +22,30 @@ def oheClassify():
     model.fit(X_train, y_train)
     accuracy = accuracy_score(model.predict(X_test), y_test) 
     return accuracy
+
+def w2vClassify():
+    data = pd.read_pickle('data/sentiment.pkl')
+    train = data[:5000]
+    test =data[5000:]
+    model = linear_model.LogisticRegression(penalty='l2')
+    X_train_w2c = vecfun(train)
+    y_train_w2c = train.polarity.as_matrix()
+    X_test = vecfun(test)
+    model.fit(X_train_w2c, y_train_w2c)
+    X_test_w2c = X_test
+    y_test_w2c = test.polarity.as_matrix()
+    w2vaccuracy = accuracy_score(model.predict(X_test_w2c), y_test_w2c) 
+    return w2vaccuracy
+
+def vecfun(data):
+    vec2=[]
+    i= 0
+    for x in data.w2v.values:
+        if type(x)!= np.float64:
+            vec=[]
+            for i in range(len(x)):
+                 vec.append(x[i])
+        vec2.append(vec)
+    return np.array(vec2)
+
+
