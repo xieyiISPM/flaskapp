@@ -26,6 +26,8 @@ def oheClassify():
     model.fit(X_train, y_train)
     accuracy = accuracy_score(model.predict(X_test), y_test) 
     #generate ROC plot
+    import matplotlib
+    matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     y_pred_proba = model.predict_proba(X_test)[::,1]
     fpr_ohe,tpr_ohe, _=metrics.roc_curve(y_test,y_pred_proba)
@@ -60,6 +62,8 @@ def w2vClassify():
     y_pred_proba = model.predict_proba(X_test)[::,1]
     fpr,tpr, _=metrics.roc_curve(y_test_w2v,y_pred_proba)
     auc =metrics.roc_auc_score(y_test_w2v, y_pred_proba)
+    import matplotlib
+    matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     plt.plot(fpr, tpr, label='w2v, auc='+ str(auc), color='darkorange')
     plt.plot([0, 1], [0, 1], color='navy',linestyle='--')
