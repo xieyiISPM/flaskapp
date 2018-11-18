@@ -7,8 +7,7 @@ from sklearn import linear_model
 from sklearn.metrics import accuracy_score
 
 from sklearn import metrics
-import io
-import base64
+
   
 def oheClassify():
     data = pd.read_pickle('data/sentiment.pkl')
