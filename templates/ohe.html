@@ -1,7 +1,38 @@
 {% extends "layout.html" %}
 {% block body %}
-  <div class="starter-template text-center mt-5">
+
+  <div class="container jumbotron text-center mt-5">
       <h1>one-hot-encode Model</h1>
-      <p>{{ohescore}}</p>
+      
+  </div>
+  <div class="container mt-2">
+      <h2 class="text-primary">Data sample</h2>
+      <img src="/static/data.png" class="img-fluid" >
+  </div>
+  
+  <div class="container mt-2">
+      <h2 class="text-primary"> Similuation code</h2>
+      <pre class="text-info">
+        <code>
+            data = pd.read_pickle('data/sentiment.pkl')
+            data.polarity = data.polarity.map(lambda x: 1 if x==4 else 0)
+            train = data[:5000]
+            test =data[5000:]
+            cvX = CountVectorizer(token_pattern="\\w+", lowercase=True)
+            cvX.fit(data.tweet)
+            X_train = cvX.transform(train.tweet)
+            y_train = train.polarity.as_matrix()
+        
+            X_test = cvX.transform(test.tweet)
+            y_test = test.polarity.as_matrix()
+        
+            model = linear_model.LogisticRegression(penalty='l2')
+            model.fit(X_train, y_train)
+            accuracy = accuracy_score(model.predict(X_test), y_test) 
+        </code>
+      </pre>
+  </div>
+  <div class="container">
+    <h3 class="text-danger">one-hot encoding model prediction accuracy: {{ohescore}}</h3>
   </div>
 {% endblock %}

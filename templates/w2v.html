@@ -1,9 +1,45 @@
 {% extends "layout.html" %}
 {% block body %}
-  <div class="starter-template text-center mt-5">
+  <div class="container jumbotron text-center mt-5">
       <h1>w2v Model</h1>
-      <p>{{w2vscore}}</p>
+      
   </div>
-
+  <div class="container mt-2">
+      <h2 class="text-primary">Data sample</h2>
+      <img src="/static/data.png" class="img-fluid" >
+  </div>
   
+  <div class="container mt-2">
+      <h2 class="text-primary"> Similuation code</h2>
+      <pre class="text-info">
+        <code>
+          data = pd.read_pickle('data/sentiment.pkl')
+          data.polarity = data.polarity.map(lambda x: 1 if x==4 else 0)
+          train = data[:5000]
+          test =data[5000:]
+          model = linear_model.LogisticRegression(penalty='l2')
+          X_train_w2c = vecfun(train)
+          y_train_w2c = train.polarity.as_matrix()
+          X_test = vecfun(test)
+          model.fit(X_train_w2c, y_train_w2c)
+          X_test_w2c = X_test
+          y_test_w2c = test.polarity.as_matrix()
+          w2vaccuracy = accuracy_score(model.predict(X_test_w2c), y_test_w2c) 
+
+          def vecfun(data):
+            vec2=[]
+            i= 0
+            for x in data.w2v.values:
+                if type(x)!= np.float64:
+                    vec=[]
+                    for i in range(len(x)):
+                        vec.append(x[i])
+                vec2.append(vec)
+            return np.array(vec2)
+        </code>
+      </pre>
+  </div>
+  <div class="container">
+    <h3 class="text-danger">w2v model prediction accuracy: {{w2vscore}}</h3>
+  </div>
 {% endblock %}

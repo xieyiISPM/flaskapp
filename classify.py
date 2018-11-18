@@ -8,6 +8,7 @@ from sklearn.metrics import accuracy_score
   
 def oheClassify():
     data = pd.read_pickle('data/sentiment.pkl')
+    data.polarity = data.polarity.map(lambda x: 1 if x==4 else 0)
     train = data[:5000]
     test =data[5000:]
     cvX = CountVectorizer(token_pattern="\\w+", lowercase=True)
@@ -25,6 +26,7 @@ def oheClassify():
 
 def w2vClassify():
     data = pd.read_pickle('data/sentiment.pkl')
+    data.polarity = data.polarity.map(lambda x: 1 if x==4 else 0)
     train = data[:5000]
     test =data[5000:]
     model = linear_model.LogisticRegression(penalty='l2')
