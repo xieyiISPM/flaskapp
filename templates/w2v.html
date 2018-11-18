@@ -11,7 +11,7 @@
   
   <div class="container mt-2">
       <h2 class="text-primary"> Similuation code</h2>
-      <pre class="text-info">
+      <pre class="prettyprint linenums lang-python">
         <code>
           data = pd.read_pickle('data/sentiment.pkl')
           data.polarity = data.polarity.map(lambda x: 1 if x==4 else 0)
@@ -25,7 +25,8 @@
           X_test_w2c = X_test
           y_test_w2c = test.polarity.as_matrix()
           w2vaccuracy = accuracy_score(model.predict(X_test_w2c), y_test_w2c) 
-
+          
+          # handle list data 
           def vecfun(data):
             vec2=[]
             i= 0

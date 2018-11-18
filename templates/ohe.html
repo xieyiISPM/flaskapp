@@ -12,7 +12,7 @@
   
   <div class="container mt-2">
       <h2 class="text-primary"> Similuation code</h2>
-      <pre class="text-info">
+      <pre class="prettyprint linenums lang-python">
         <code>
             data = pd.read_pickle('data/sentiment.pkl')
             data.polarity = data.polarity.map(lambda x: 1 if x==4 else 0)
