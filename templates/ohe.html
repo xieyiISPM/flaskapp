@@ -14,25 +14,46 @@
       <h2 class="text-primary"> Code</h2>
       <pre class="prettyprint linenums lang-python">
         <code>
-            data = pd.read_pickle('data/sentiment.pkl')
-            data.polarity = data.polarity.map(lambda x: 1 if x==4 else 0)
-            train = data[:5000]
-            test =data[5000:]
-            cvX = CountVectorizer(token_pattern="\\w+", lowercase=True)
-            cvX.fit(data.tweet)
-            X_train = cvX.transform(train.tweet)
-            y_train = train.polarity.as_matrix()
-        
-            X_test = cvX.transform(test.tweet)
-            y_test = test.polarity.as_matrix()
-        
-            model = linear_model.LogisticRegression(penalty='l2')
-            model.fit(X_train, y_train)
-            accuracy = accuracy_score(model.predict(X_test), y_test) 
+data = pd.read_pickle('data/sentiment.pkl')
+data.polarity = data.polarity.map(lambda x: 1 if x==4 else 0)
+train = data[:5000]
+test =data[5000:]
+cvX = CountVectorizer(token_pattern="\\w+", lowercase=True)
+cvX.fit(data.tweet)
+X_train = cvX.transform(train.tweet)
+y_train = train.polarity.as_matrix()
+
+X_test = cvX.transform(test.tweet)
+y_test = test.polarity.as_matrix()
+
+model = linear_model.LogisticRegression(penalty='l2')
+model.fit(X_train, y_train)
+accuracy = accuracy_score(model.predict(X_test), y_test) 
+#generate ROC plot
+import matplotlib.pyplot as plt
+y_pred_proba = model.predict_proba(X_test)[::,1]
+fpr_ohe,tpr_ohe, _=metrics.roc_curve(y_test,y_pred_proba)
+auc_ohe =metrics.roc_auc_score(y_test, y_pred_proba)
+plt.plot(fpr_ohe, tpr_ohe, label='w2v, auc='+ str(auc_ohe), color='darkorange')
+plt.plot([0, 1], [0, 1], color='navy',linestyle='--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver operating characteristic example')
+plt.legend(loc="lower right")
+
+plt.savefig('static/ohe_plot.png')
+plt.clf()
+plt.close("all")
         </code>
       </pre>
   </div>
   <div class="container">
     <h3 class="text-danger">one-hot encoding model prediction accuracy: {{ohescore}}</h3>
+  </div>
+  <div class="container mt-2">
+      <h2 class="text-primary">ROC Plot</h2>
+      <img src="/static/ohe_plot.png" class="img-fluid" >
   </div>
 {% endblock %}
